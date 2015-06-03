@@ -1,13 +1,13 @@
 function sumdvec = pcaguidedkmeans(data, k, replicates)
 
+% Apply PCA on original data
+% score contains the representation of the original data in the principal
+% component space
+[~, score] = pca(data, 'NumComponents', k);
+
 % Preallocate for performance
 sumdvec = zeros(1, replicates);
 for i = 1:replicates
-    % Apply PCA on original data
-    % score contains the representation of the original data in the principal
-    % component space
-    [~, score] = pca(data, 'NumComponents', k);
-    
     % Apply KMeans on the subspace created by the PCA
     % Standard KMeans selects K random points from score to use as centroids.
     % idx contains the clusters indices. It is a column vector that contains as
