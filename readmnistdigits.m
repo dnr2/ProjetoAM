@@ -14,4 +14,7 @@ data = [train0(1:numimages, :); train1(1:numimages, :);
     train4(1:numimages, :); train5(1:numimages, :); 
     train6(1:numimages, :); train7(1:numimages, :);
     train8(1:numimages, :); train9(1:numimages, :)];
+
+% Convert it to a matrix of doubles
+data = double(data);
 end
