@@ -46,8 +46,9 @@ data = data(shrows, :);
 disp('(1) Random search')
 disp('(2) K-means++')
 disp('(3) PCA-guided search')
+disp('(4) KKZ')
 algorithmchoice = input('Please, select an algorithm: ');
-while (algorithmchoice < 1 || algorithmchoice > 3)
+while (algorithmchoice < 1 || algorithmchoice > 4)
     algorithmchoice = input('Please, select an algorithm: ');
 end
 
@@ -72,6 +73,9 @@ switch algorithmchoice
     case 3
         distortionvec = pcaguidedkmeans(data, k, replicates);
         plotlegend = 'PCA-guided Search';
+    case 4
+        distortionvec = kkz(data, k);
+        plotlegend = 'KKZ';
     otherwise
         disp('Something went wrong...')
 end
