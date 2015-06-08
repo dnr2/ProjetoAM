@@ -1,5 +1,8 @@
 function data = readmnistdigits
 
+% Change to the directory containing the data sets
+cd datasets;
+
 % Load the data set
 % test{0-9} test sets
 % train{0-9} train sets
@@ -17,4 +20,7 @@ data = [train0(1:numimages, :); train1(1:numimages, :);
 
 % Convert it to a matrix of doubles
 data = double(data);
+
+% Back to the original directory
+cd ..;
 end

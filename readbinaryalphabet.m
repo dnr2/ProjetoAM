@@ -1,5 +1,8 @@
 function data = readbinaryalphabet
 
+% Change to the directory containing the data sets
+cd datasets;
+
 % Preallocate for performance
 % Since each image is a 16x20 binary image (20x16 matrix)
 % data is a 1014x320 matrix (1014 = 26*39 images, 320 = 16*20 features)
@@ -24,4 +27,7 @@ for i = 11:numclass
         data((i - 11)*numimages + j, :) = reshape(imagematrix', 1, numel(imagematrix));
     end
 end
+
+% Back to the original directory
+cd ..;
 end

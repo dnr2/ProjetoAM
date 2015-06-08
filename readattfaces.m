@@ -6,6 +6,7 @@ function data = readattfaces
 data = zeros(400, 644);
 
 % Change directory
+cd datasets;
 cd att_faces;
 numfolders = 40;
 numimages = 10;
@@ -23,5 +24,6 @@ for i = 1:numfolders
 end
 
 % Back to the original directory
+cd ..;
 cd ..;
 end

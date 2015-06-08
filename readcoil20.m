@@ -6,6 +6,7 @@ function data = readcoil20
 data = zeros(1000, 1024);
 
 % Change directory
+cd datasets;
 cd coil20;
 
 % Number of objects and images for each object
@@ -22,5 +23,6 @@ for i = 1:numobjects
 end
 
 % Back to the original directory
+cd ..;
 cd ..;
 end
