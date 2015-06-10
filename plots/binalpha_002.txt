@@ -1,0 +1,17 @@
+Running the Random Search...
+Elapsed time is 2543.405055 seconds.
+
+Running the K-means++...
+Elapsed time is 2676.729389 seconds.
+
+Running the PCA-guided Search...
+Elapsed time is 723.335433 seconds.
+
+Running the KKZ...
+Elapsed time is 1.789406 seconds.
+
+Minimum distortion values for each algorithm:
+Random Search: 50417.5
+K-means++: 50404.7
+PCA-guided Search: 50405.1
+KKZ: 50961.3
