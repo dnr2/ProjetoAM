@@ -18,11 +18,12 @@ for i = 1:replicates
     % Preallocate for performance
     C = zeros(k, size(data, 2));
     for j = 1:k
-        C(j, :) = sum(data(idx == j, :)) / size(data(idx == j, :), 1);
+        membersubset = data(idx == j, :);
+        C(j, :) = sum(membersubset) / size(membersubset, 1);
     end
     
     % KMeans on the original data set initialized with given centroids
-    [~, ~, sumd] = kmeans(data, k, 'Display', 'final', 'MaxIter', 1000, 'Start', C);
+    [~, ~, sumd] = kmeans(data, k, 'MaxIter', 1000, 'Start', C);
     
     % Get the WCSS
     sumdvec(i) = sum(sumd);

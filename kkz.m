@@ -4,10 +4,10 @@ function distortionvec = kkz(data, k, replicates)
     centroids = initializecentroids(data, k);
     % kmeans algorithm initialized with the centroids calculated by the KKZ
     % algorithm
-    [~, ~, sumdvec] = kmeans(data, k, 'Display', 'final', 'MaxIter', 1000, 'Start', centroids);
+    [~, ~, sumdvec] = kmeans(data, k, 'MaxIter', 1000, 'Start', centroids);
     % Get the WCSS
     sumd = sum(sumdvec);
-    distortionvec = repmat(sumd, replicates);
+    distortionvec = repmat(sumd, 1, replicates);
 end
 
 function centroids = initializecentroids(data, k)

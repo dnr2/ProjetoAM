@@ -5,7 +5,7 @@ sumdvec = zeros(1, replicates);
 % k-means++ algorithm is the default algorithm in the matlab implementaion
 % of k-means
 for i = 1:replicates
-    [~, ~, sumd] = kmeans(data, k, 'Display', 'final', 'MaxIter', 1000);
+    [~, ~, sumd] = kmeans(data, k, 'MaxIter', 1000);
     % Get the WCSS
     sumdvec(i) = sum(sumd);
 end
