@@ -47,19 +47,21 @@ disp('(1) Random search')
 disp('(2) K-means++')
 disp('(3) PCA-guided search')
 disp('(4) KKZ')
+disp('(5) RUN ALL ALGORITHMS')
 algorithmchoice = input('Please, select an algorithm: ');
-while (algorithmchoice < 1 || algorithmchoice > 4)
+while (algorithmchoice < 1 || algorithmchoice > 5)
     algorithmchoice = input('Please, select an algorithm: ');
 end
 
 % Get the number of trials of the algorithm
-if (algorithmchoice <= 3)
+if (algorithmchoice <= 5)
     replicates = input('Please, enter a number of runs for the algorithm: ');
     while (replicates < 1 || (int32(replicates) ~= replicates))
         disp('You must enter a positive integer!')
         replicates = input('Please, enter a number of runs for the algorithm: ');
     end
 end
+should_plot = true;
 
 % Select the desired algorithm and run it
 % Also, set some parameters for the results plot
@@ -74,14 +76,31 @@ switch algorithmchoice
         distortionvec = pcaguidedkmeans(data, k, replicates);
         plotlegend = 'PCA-guided Search';
     case 4
-        distortionvec = kkz(data, k);
+        distortionvec = kkz(data, k, replicates);
         plotlegend = 'KKZ';
+    case 5
+        distortionvec1 = randomsearchkmeans(data, k, replicates);        
+        distortionvec2 = kmeansplusplus(data, k, replicates);        
+        distortionvec3 = pcaguidedkmeans(data, k, replicates);
+        distortionvec4 = kkz(data, k, replicates);
+        hold all;
+        plot(distortionvec1, 'k','LineWidth',2);
+        plot(distortionvec2, 'r','LineWidth',2);
+        plot(distortionvec3, 'b','LineWidth',2);        
+        plot(distortionvec4, 'c','LineWidth',2);
+        ylabel('Distortion');
+        title(plottitle);
+        legend('Random Search','K-means++','PCA-guided Search','KKZ');    
+        hold off;
+        should_plot = false;
     otherwise
         disp('Something went wrong...')
 end
 
-% Plot the results
-plot(distortionvec)
-ylabel('Distortion')
-title(plottitle)
-legend(plotlegend)
+if ( should_plot )
+    % Plot the results
+    plot(distortionvec)
+    ylabel('Distortion')
+    title(plottitle)
+    legend(plotlegend)
+end
