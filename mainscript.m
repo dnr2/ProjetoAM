@@ -79,19 +79,43 @@ switch algorithmchoice
         distortionvec = kkz(data, k, replicates);
         plotlegend = 'KKZ';
     case 5
-        distortionvec1 = randomsearchkmeans(data, k, replicates);        
-        distortionvec2 = kmeansplusplus(data, k, replicates);        
+        % Random search
+        disp('Running the Random Search...')
+        tic
+        distortionvec1 = randomsearchkmeans(data, k, replicates);
+        toc
+        % K-means++
+        disp('Running the K-means++...')
+        tic
+        distortionvec2 = kmeansplusplus(data, k, replicates);
+        toc
+        % PCA-guided search
+        disp('Running the PCA-guided Search...');
+        tic
         distortionvec3 = pcaguidedkmeans(data, k, replicates);
+        toc
+        % KKZ
+        disp('Running the KKZ...')
+        tic
         distortionvec4 = kkz(data, k, replicates);
-        hold all;
-        plot(distortionvec1, 'k','LineWidth',2);
-        plot(distortionvec2, 'r','LineWidth',2);
-        plot(distortionvec3, 'b','LineWidth',2);        
-        plot(distortionvec4, 'c','LineWidth',2);
-        ylabel('Distortion');
-        title(plottitle);
-        legend('Random Search','K-means++','PCA-guided Search','KKZ');    
-        hold off;
+        toc
+        % Plot the results in a single graph
+        hold all
+        plot(distortionvec1, 'r', 'LineWidth', 2)
+        plot(distortionvec2, 'b', 'LineWidth', 2)
+        plot(distortionvec3, 'c', 'LineWidth', 2)     
+        plot(distortionvec4, 'g', 'LineWidth', 2)
+        ylabel('Distortion')
+        title(plottitle)
+        legend('Random Search', 'K-means++', 'PCA-guided Search', 'KKZ')  
+        hold off
+        % Get the minimum values of each algorithm
+        % Since the values are sorted in descending order, just get the
+        % last element
+        mindistortionvec = [distortionvec1(end), distortionvec2(end), distortionvec3(end), distortionvec4(end)];
+        fprintf('Minimum distortion values for each algorithm:\nRandom Search: %.6g\nK-means++: %.6g\nPCA-guided Search: %.6g\nKKZ: %.6g\n', ...
+            mindistortionvec(1), mindistortionvec(2), mindistortionvec(3), mindistortionvec(4))
+        % No individual plots
         should_plot = false;
     otherwise
         disp('Something went wrong...')
