@@ -48,13 +48,14 @@ disp('(2) K-means++')
 disp('(3) PCA-guided search')
 disp('(4) KKZ')
 disp('(5) RUN ALL ALGORITHMS')
+disp('(6) Random search + PCA-guided search (10d, 26d, 40d) + KKZ')
 algorithmchoice = input('Please, select an algorithm: ');
-while (algorithmchoice < 1 || algorithmchoice > 5)
+while (algorithmchoice < 1 || algorithmchoice > 6)
     algorithmchoice = input('Please, select an algorithm: ');
 end
 
 % Get the number of trials of the algorithm
-if (algorithmchoice <= 5)
+if (algorithmchoice <= 6)
     replicates = input('Please, enter a number of runs for the algorithm: ');
     while (replicates < 1 || (int32(replicates) ~= replicates))
         disp('You must enter a positive integer!')
@@ -90,7 +91,7 @@ switch algorithmchoice
         distortionvec2 = kmeansplusplus(data, k, replicates);
         toc
         % PCA-guided search
-        disp('Running the PCA-guided Search...');
+        disp('Running the PCA-guided Search...')
         tic
         distortionvec3 = pcaguidedkmeans(data, k, replicates);
         toc
@@ -115,6 +116,53 @@ switch algorithmchoice
         mindistortionvec = [distortionvec1(end), distortionvec2(end), distortionvec3(end), distortionvec4(end)];
         fprintf('Minimum distortion values for each algorithm:\nRandom Search: %.6g\nK-means++: %.6g\nPCA-guided Search: %.6g\nKKZ: %.6g\n', ...
             mindistortionvec(1), mindistortionvec(2), mindistortionvec(3), mindistortionvec(4))
+        % No individual plots
+        should_plot = false;
+    case 6
+        % Update the k value
+        k = [40, 26, 10];
+        % Random search
+        fprintf('Running the Random Search with k = %d...\n', k(2))
+        tic
+        distortionvec1 = randomsearchkmeans(data, k(2), replicates);
+        toc
+        % PCA-guided search k = k(1)
+        fprintf('Running the PCA-guided Search with k = %d...\n', k(1))
+        tic
+        distortionvec2 = pcaguidedkmeans(data, k(1), replicates);
+        toc
+        % PCA-guided search k = k(2)
+        fprintf('Running the PCA-guided Search with k = %d...\n', k(2))
+        tic
+        distortionvec3 = pcaguidedkmeans(data, k(2), replicates);
+        toc
+        % PCA-guided search k = k(3)
+        fprintf('Running the PCA-guided Search with k = %d...\n', k(3))
+        tic
+        distortionvec4 = pcaguidedkmeans(data, k(3), replicates);
+        toc
+        % KKZ
+        fprintf('Running the KKZ with k = %d...\n', k(2))
+        tic
+        distortionvec5 = kkz(data, k(2), replicates);
+        toc
+        % Plot the results in a single graph
+        hold all
+        plot(distortionvec1, 'm', 'LineWidth', 2)
+        plot(distortionvec2, 'g', 'LineWidth', 2)
+        plot(distortionvec3, 'k', 'LineWidth', 2)     
+        plot(distortionvec4, 'r', 'LineWidth', 2)
+        plot(distortionvec5, 'b', 'LineWidth', 2)
+        ylabel('Distortion')
+        title(plottitle)
+        legend('Random Search', 'PCA-guided Search(40d)', 'PCA-guided Search(26d)', 'PCA-guided Search(10d)', 'KKZ')  
+        hold off
+        % Get the minimum values of each algorithm
+        % Since the values are sorted in descending order, just get the
+        % last element
+        mindistortionvec = [distortionvec1(end), distortionvec2(end), distortionvec3(end), distortionvec4(end), distortionvec5(end)];
+        fprintf('Minimum distortion values for each algorithm:\nRandom Search: %.6g\nPCA-guided Search(40d): %.6g\nPCA-guided Search(26d): %.6g\nPCA-guided Search(10d): %.6g\nKKZ: %.6g\n', ...
+            mindistortionvec(1), mindistortionvec(2), mindistortionvec(3), mindistortionvec(4), mindistortionvec(5))
         % No individual plots
         should_plot = false;
     otherwise
