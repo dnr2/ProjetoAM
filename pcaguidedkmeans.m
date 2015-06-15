@@ -1,9 +1,9 @@
-function sumdvec = pcaguidedkmeans(data, k, replicates)
+function sumdvec = pcaguidedkmeans(data, k, replicates,d)
 
 % Apply PCA on original data
 % score contains the representation of the original data in the principal
 % component space
-[~, score] = pca(data, 'NumComponents', k);
+[~, score] = pca(data, 'NumComponents', d);
 
 % Preallocate for performance
 sumdvec = zeros(1, replicates);

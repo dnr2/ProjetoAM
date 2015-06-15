@@ -74,7 +74,7 @@ switch algorithmchoice
         distortionvec = kmeansplusplus(data, k, replicates);
         plotlegend = 'K-means++';
     case 3
-        distortionvec = pcaguidedkmeans(data, k, replicates);
+        distortionvec = pcaguidedkmeans(data, k, replicates, k);
         plotlegend = 'PCA-guided Search';
     case 4
         distortionvec = kkz(data, k, replicates);
@@ -93,7 +93,7 @@ switch algorithmchoice
         % PCA-guided search
         disp('Running the PCA-guided Search...')
         tic
-        distortionvec3 = pcaguidedkmeans(data, k, replicates);
+        distortionvec3 = pcaguidedkmeans(data, k, replicates,k);
         toc
         % KKZ
         disp('Running the KKZ...')
@@ -119,32 +119,32 @@ switch algorithmchoice
         % No individual plots
         should_plot = false;
     case 6
-        % Update the k value
-        k = [40, 26, 10];
+        % Update the d value
+        d = [40, 26, 10];
         % Random search
-        fprintf('Running the Random Search with k = %d...\n', k(2))
+        fprintf('Running the Random Search\n')
         tic
-        distortionvec1 = randomsearchkmeans(data, k(2), replicates);
+        distortionvec1 = randomsearchkmeans(data, k, replicates);
         toc
-        % PCA-guided search k = k(1)
-        fprintf('Running the PCA-guided Search with k = %d...\n', k(1))
+        % PCA-guided search d = d(1)
+        fprintf('Running the PCA-guided Search with dimension = %d...\n', d(1))
         tic
-        distortionvec2 = pcaguidedkmeans(data, k(1), replicates);
+        distortionvec2 = pcaguidedkmeans(data, k, replicates, d(1));
         toc
-        % PCA-guided search k = k(2)
-        fprintf('Running the PCA-guided Search with k = %d...\n', k(2))
+        % PCA-guided search d = d(2)
+        fprintf('Running the PCA-guided Search with dimension = %d...\n', d(2))
         tic
-        distortionvec3 = pcaguidedkmeans(data, k(2), replicates);
+        distortionvec3 = pcaguidedkmeans(data, k, replicates, d(2));
         toc
-        % PCA-guided search k = k(3)
-        fprintf('Running the PCA-guided Search with k = %d...\n', k(3))
+        % PCA-guided search d = d(1)
+        fprintf('Running the PCA-guided Search with dimension = %d...\n', d(3))
         tic
-        distortionvec4 = pcaguidedkmeans(data, k(3), replicates);
+        distortionvec4 = pcaguidedkmeans(data, k, replicates, d(3));
         toc
         % KKZ
-        fprintf('Running the KKZ with k = %d...\n', k(2))
+        fprintf('Running the KKZ\n')
         tic
-        distortionvec5 = kkz(data, k(2), replicates);
+        distortionvec5 = kkz(data, k, replicates);
         toc
         % Plot the results in a single graph
         hold all
