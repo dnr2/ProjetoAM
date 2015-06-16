@@ -1,8 +1,6 @@
-% Description of the code
-%
-%
-%
-%
+% This code aims to reproduce the PCA-guided search, proposed by Xu, Q.,
+% Ding, C., et al. in "PCA-guided search for K-means".
+% Simply run the script and follow the instructions.
 disp('(1) AT&T Faces Data Set')
 disp('(2) MNIST Handwritten Digits Data Set')
 disp('(3) Binary Alphabet Data Set')
@@ -65,7 +63,7 @@ end
 should_plot = true;
 
 % Select the desired algorithm and run it
-% Also, set some parameters for the results plot
+% Also, set some parameters for the plot results
 switch algorithmchoice
     case 1
         distortionvec = randomsearchkmeans(data, k, replicates);
